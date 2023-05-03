@@ -17,6 +17,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         super(Board.class);
     }
 
+    /* 
     @Override
     public Page<Board> search1(Pageable pageable) {
         QBoard board = QBoard.board; //Q도메인  객체
@@ -32,6 +33,8 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
         return null;
     }
+    */
+
 
     @Override
     public Page<Board> searchAll(String[] types, String keyword, Pageable pageable ) {
@@ -63,7 +66,8 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         query.where(board.bno.gt(0L));
 
         //paging
-        this.getQuerydsl().applyPagination(pageable, query);
+        this.getQuerydsl().applyPagination(pageable, query);   
+            
         List<Board> list = query.fetch();
         long count = query.fetchCount();
 

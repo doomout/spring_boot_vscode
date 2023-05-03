@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.zerock.spring_boot_ex.dto.BoardDTO;
+import com.zerock.spring_boot_ex.dto.PageRequestDTO;
+import com.zerock.spring_boot_ex.dto.PageResponseDTO;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -36,5 +38,21 @@ public class BoardServiceTests {
                 .content("Updated content 101....")
                 .build();
         boardService.modify(boardDTO);
+    }
+
+    @Test
+    public void testList() {
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .type("tcw")
+                .keyword("1")
+                .page(1)
+                .size(10)
+                .build();
+
+        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
+
+        log.info(responseDTO);
+
     }
 }

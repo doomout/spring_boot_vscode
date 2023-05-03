@@ -1,14 +1,20 @@
 package com.zerock.spring_boot_ex.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.zerock.spring_boot_ex.domain.Board;
 import com.zerock.spring_boot_ex.dto.BoardDTO;
+import com.zerock.spring_boot_ex.dto.PageRequestDTO;
+import com.zerock.spring_boot_ex.dto.PageResponseDTO;
 import com.zerock.spring_boot_ex.repository.BoardRepository;
 
 import groovy.util.logging.Log4j2;
@@ -52,5 +58,23 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void remove(Long bno) {
         boardRepository.deleteById(bno);
+    }
+
+    @Override
+    public PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO) {
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+
+        Page<Board> result = boardRepository.searchAll(types, keyword, pageable);
+
+        List<BoardDTO> dtoList = result.getContent().stream()
+                .map(board -> modelMapper.map(board,BoardDTO.class)).collect(Collectors.toList());
+
+        return PageResponseDTO.<BoardDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int)result.getTotalElements())
+                .build();
     }
 }
