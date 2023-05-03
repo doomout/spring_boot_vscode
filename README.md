@@ -45,6 +45,8 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
+
+    implementation 'org.modelmapper:modelmapper:3.1.0'
 	
 	//Querdsl 설정
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
