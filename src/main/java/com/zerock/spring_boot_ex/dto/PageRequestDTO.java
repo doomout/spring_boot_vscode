@@ -43,6 +43,7 @@ public class PageRequestDTO {
 
     //검색 조건과 페이징 조건을 문자열로 구성
     private String link;
+    
     public String getLink() {
         if(link == null) {
             StringBuilder builder = new StringBuilder();

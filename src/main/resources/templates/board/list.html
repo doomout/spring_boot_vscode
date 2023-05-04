@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/basic.html}">
-
+<!--레이아웃용-->
 <div layout:fragment="content">
 
     <div class="row mt-3">
@@ -50,7 +50,7 @@
                             <th scope="col">RegDate</th>
                         </tr>
                         </thead>
-
+                        <!--목록에서 조회 링크 처리-->    
                         <tbody th:with="link = ${pageRequestDTO.getLink()}">
 
                         <tr th:each="dto:${responseDTO.dtoList}"  >
@@ -65,7 +65,7 @@
 
                         </tbody>
                     </table>
-
+                     <!--/*페이지 번호 시작*/-->   
                     <div class="float-end">
                         <ul class="pagination flex-wrap">
 

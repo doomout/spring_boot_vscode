@@ -11,14 +11,16 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-@EntityListeners(value = { AuditingEntityListener.class }) //DB에 추가/변경 시 자동으로 시간 값 지정
+@EntityListeners(value = { AuditingEntityListener.class })
 @Getter
 abstract class BaseEntity {
+
     @CreatedDate
     @Column(name = "regdate", updatable = false)
     private LocalDateTime regDate;
 
     @LastModifiedDate
-    @Column(name = "moddate")
+    @Column(name ="moddate" )
     private LocalDateTime modDate;
+
 }

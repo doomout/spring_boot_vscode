@@ -37,19 +37,25 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
+
+    implementation 'org.modelmapper:modelmapper:3.1.0'
+    //Querdsl 설정
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
-	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
-
-    implementation 'org.modelmapper:modelmapper:3.1.0'
 	
-	//Querdsl 설정
-	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	
+	
 	annotationProcessor(
 			"javax.persistence:javax.persistence-api",
 			"javax.annotation:javax.annotation-api",
