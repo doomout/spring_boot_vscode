@@ -20,10 +20,11 @@ public class BoardServiceTests {
     public void testRegister() {
         log.info(boardService.getClass().getName());
 
-        BoardDTO boardDTO = BoardDTO.builder().title("Sample Ttitle....")
-        .content("Sample Content....")
-        .writer("user00")
-        .build();
+        BoardDTO boardDTO = BoardDTO.builder()
+            .title("Sample Ttitle....")
+            .content("Sample Content....")
+            .writer("user00")
+            .build();
 
         Long bno = boardService.register(boardDTO);
 
