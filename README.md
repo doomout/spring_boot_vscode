@@ -149,4 +149,22 @@ sourceSets{
     * Pageable, page<E> : 페이징 처리 
     * @Query : SQL 과 유사하게 JPA에서 사용하는 쿼리 언어
     * 원하는 속성만 추출해서 Object[] 로 처리 하거나 DTO로 처리하는 기능
+6. vsCode 에서 java 여러 버전 사용법 
+    * vsCode 확장팩 Extension Pack for Java가 기본 자바 11 이상을 지원한다.
+    * JDK가 11 이하가 설치 되어 있는 경우 실행시 오류가 발생한다.
+    * 설정에서 java:home 으로 검색 후 "settings.json 에서 편집" 클릭 하단 코드를 추가 
+```json
+ "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-1.8", //자바 버전
+            "path": "C:\\Program Files\\Java\\jdk1.8.0_202" //설치 경로
+        },
+        {
+            "name": "JavaSE-11", //자바 버전
+            "path": "C:\\Program Files\\Java\\jdk-11", //설치 경로
+            "default": true //기본으로 이 버전을 사용하겠다는 것
+        }
+    ],
+```     
+
    
