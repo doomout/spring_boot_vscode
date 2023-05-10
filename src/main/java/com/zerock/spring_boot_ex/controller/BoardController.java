@@ -86,6 +86,6 @@ public class BoardController {
         log.info("remove post...." + bno );
         boardService.remove(bno);
         redirectAttributes.addFlashAttribute("result", "removed");
-        return "redirect:/board/read";
+        return "redirect:/board/list";
     }
 }
