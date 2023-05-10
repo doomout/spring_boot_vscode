@@ -38,6 +38,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    //Swagger UI 설정
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
 
@@ -166,5 +169,24 @@ sourceSets{
         }
     ],
 ```     
+7. MariaDB 한글 설정법
+    * 윈도우 : 설치 경로\data\my.ini 파일 열기
+    * 리눅스 : /etc/my.cnf.d 파일 열기 
+    * 하단 설정 입력 후 mariaDB 재기동
+    * SHOW VARIABLES LIKE 'c%' 으로 확인
+```text
+[client]
+default-character-set=utf8
+
+[mysqld]
+character-set-server=utf8
+collation-server=utf8_general_ci
+init_connect=SET collation_connection=utf8_general_ci
+init_connect=SET NAMES utf8
+
+[mysql]
+default-character-set=utf8
+```
+
 
    
