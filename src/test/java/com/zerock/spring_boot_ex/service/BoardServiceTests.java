@@ -34,9 +34,9 @@ public class BoardServiceTests {
     @Test
     public void testModify() {
         BoardDTO boardDTO = BoardDTO.builder()
-                .bno(101L)
-                .title("Updated.... 101")
-                .content("Updated content 101....")
+                .bno(193L)
+                .title("Updated.... 193")
+                .content("Updated content 193....")
                 .build();
         boardService.modify(boardDTO);
     }
