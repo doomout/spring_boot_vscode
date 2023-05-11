@@ -27,7 +27,7 @@ public class ReplyController {
     @ApiOperation(value="Replies POST", notes = "POST 방식으로 댓글 등록")
     @PostMapping(value="/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Long>> register(
-        @Valid @RequestBody ReplyDTO replyDTO,
+        @Valid @RequestBody ReplyDTO replyDTO, //유효성 검증
         BindingResult bindingResult) throws BindException {
         
         log.info(replyDTO);
