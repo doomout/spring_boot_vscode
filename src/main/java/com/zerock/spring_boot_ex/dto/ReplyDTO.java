@@ -26,5 +26,6 @@ public class ReplyDTO {
     
     @NotEmpty
     private String replyer; //리플 입력자
+    
     private LocalDateTime regDate, modDate; //등록일, 수정일
 }
