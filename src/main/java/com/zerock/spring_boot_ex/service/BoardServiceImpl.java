@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.zerock.spring_boot_ex.domain.Board;
 import com.zerock.spring_boot_ex.dto.BoardDTO;
+import com.zerock.spring_boot_ex.dto.BoardListReplyCountDTO;
 import com.zerock.spring_boot_ex.dto.PageRequestDTO;
 import com.zerock.spring_boot_ex.dto.PageResponseDTO;
 import com.zerock.spring_boot_ex.repository.BoardRepository;
@@ -60,6 +61,7 @@ public class BoardServiceImpl implements BoardService {
         boardRepository.deleteById(bno);
     }
 
+    //게시물만 보여줌
     @Override
     public PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO) {
         String[] types = pageRequestDTO.getTypes();
@@ -75,6 +77,22 @@ public class BoardServiceImpl implements BoardService {
                 .pageRequestDTO(pageRequestDTO)
                 .dtoList(dtoList)
                 .total((int)result.getTotalElements())
+                .build();
+    }
+
+    //게시물 + 댓글 수 보여줌
+    @Override
+    public PageResponseDTO<BoardListReplyCountDTO> listWithReplyCount(PageRequestDTO pageRequestDTO) {
+        String[] type = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+
+        Page<BoardListReplyCountDTO> result = boardRepository.searchWithReplyCount(type, keyword, pageable);
+
+        return PageResponseDTO.<BoardListReplyCountDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(result.getContent())
+                .total((int)result.getTotalElements())    
                 .build();
     }
 }

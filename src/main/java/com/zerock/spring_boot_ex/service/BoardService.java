@@ -1,6 +1,7 @@
 package com.zerock.spring_boot_ex.service;
 
 import com.zerock.spring_boot_ex.dto.BoardDTO;
+import com.zerock.spring_boot_ex.dto.BoardListReplyCountDTO;
 import com.zerock.spring_boot_ex.dto.PageRequestDTO;
 import com.zerock.spring_boot_ex.dto.PageResponseDTO;
 
@@ -14,4 +15,7 @@ public interface BoardService {
     void remove(Long bno); //삭제
 
     PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO); //목록, 검색기능
+
+    //댓글의 숫자까지 처리
+    PageResponseDTO<BoardListReplyCountDTO> listWithReplyCount(PageRequestDTO pageRequestDTO);
 }
