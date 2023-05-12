@@ -2,6 +2,7 @@ package com.zerock.spring_boot_ex.controller.advice;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -44,6 +45,19 @@ public class CustomRestAdvice {
 
         errorMap.put("time", "" +System.currentTimeMillis());
         errorMap.put("msg", "constraint fails");
+        return ResponseEntity.badRequest().body(errorMap);
+    }
+
+    //댓글 데이터가 존재하지 않는 경우 예외 처리
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
+    public ResponseEntity<Map<String, String>> handleNoSuchException(Exception e) { 
+        log.error(e);
+
+        Map<String, String> errorMap = new HashMap<>();
+
+        errorMap.put("time", "" +System.currentTimeMillis());
+        errorMap.put("msg", "No Such Element Exception");
         return ResponseEntity.badRequest().body(errorMap);
     }
 }

@@ -1,5 +1,7 @@
 package com.zerock.spring_boot_ex.controller;
 
+import com.zerock.spring_boot_ex.dto.PageRequestDTO;
+import com.zerock.spring_boot_ex.dto.PageResponseDTO;
 import com.zerock.spring_boot_ex.dto.ReplyDTO;
 import com.zerock.spring_boot_ex.service.ReplyService;
 
@@ -19,6 +21,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -30,23 +36,6 @@ public class ReplyController {
 
     @ApiOperation(value="Replies POST", notes = "POST 방식으로 댓글 등록")
     @PostMapping(value="/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    /* 
-    public ResponseEntity<Map<String, Long>> register(
-        @Valid @RequestBody ReplyDTO replyDTO, //유효성 검증
-        BindingResult bindingResult) throws BindException {
-        
-        log.info(replyDTO);
-
-        if(bindingResult.hasErrors()) {
-            throw new BindException(bindingResult);
-        }
-
-        Map<String, Long> resulMap = new HashMap<>();
-        resulMap.put("rno", 111L);
-        
-        return ResponseEntity.ok(resulMap);
-    }
-    */
     public Map<String, Long> register(
         @Valid @RequestBody ReplyDTO replyDTO, //유효성 검증
         BindingResult bindingResult) throws BindException {
@@ -64,5 +53,22 @@ public class ReplyController {
         resulMap.put("rno", rno);
         
         return resulMap;
+    }
+
+    //특정 게시물의 댓글 목록
+    @ApiOperation(value = "Replies of Board", notes="GET 방식으로 특정 게시물의 댓글 목록")
+    @GetMapping(value="/list/{bno}") //게시물 번호
+    public PageResponseDTO<ReplyDTO> getList(@PathVariable("bno") Long bno, PageRequestDTO pageRequestDTO) {
+        PageResponseDTO<ReplyDTO> responseDTO = replyService.getListOfBoard(bno, pageRequestDTO);
+        return responseDTO;
+    }
+    
+    //특정 댓글 조회
+    @ApiOperation(value = "Read Reply", notes = "GET 방식으로 특정 댓글 조회")
+    @GetMapping("/{rno}") //댓글 번호
+    public ReplyDTO getReplyDTO(@PathVariable("rno") Long rno) {
+        ReplyDTO replyDTO = replyService.read(rno);
+
+        return replyDTO;
     }
 }
