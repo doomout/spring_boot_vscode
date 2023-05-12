@@ -3,19 +3,19 @@ package com.zerock.spring_boot_ex.controller.advice;
 import java.util.HashMap;
 import java.util.Map;
 
-
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import lombok.extern.log4j.Log4j2;
 
 
-@RestController
+@RestControllerAdvice
 @Log4j2
 public class CustomRestAdvice {
     @ExceptionHandler(BindException.class)
@@ -29,6 +29,21 @@ public class CustomRestAdvice {
                 errorMap.put(fieldError.getField(), fieldError.getCode());
             });
         }
+        return ResponseEntity.badRequest().body(errorMap);
+    }
+
+
+    //handleFKException()은  DataIntegrityViolationException 에러가 발생하면 
+    //constraint fails를 클라이언트로 전송한다.
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
+    public ResponseEntity<Map<String, String>> handleFKException(Exception e) { 
+        log.error(e);
+
+        Map<String, String> errorMap = new HashMap<>();
+
+        errorMap.put("time", "" +System.currentTimeMillis());
+        errorMap.put("msg", "constraint fails");
         return ResponseEntity.badRequest().body(errorMap);
     }
 }

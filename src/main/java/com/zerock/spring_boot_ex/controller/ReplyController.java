@@ -1,9 +1,10 @@
 package com.zerock.spring_boot_ex.controller;
 
 import com.zerock.spring_boot_ex.dto.ReplyDTO;
+import com.zerock.spring_boot_ex.service.ReplyService;
 
 import io.swagger.annotations.ApiOperation;
-
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.HashMap;
@@ -23,9 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/replies")
 @Log4j2
+@RequiredArgsConstructor //의존성 주입을 위한
 public class ReplyController {
+    private final ReplyService replyService;
+
     @ApiOperation(value="Replies POST", notes = "POST 방식으로 댓글 등록")
     @PostMapping(value="/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    /* 
     public ResponseEntity<Map<String, Long>> register(
         @Valid @RequestBody ReplyDTO replyDTO, //유효성 검증
         BindingResult bindingResult) throws BindException {
@@ -41,5 +46,23 @@ public class ReplyController {
         
         return ResponseEntity.ok(resulMap);
     }
+    */
+    public Map<String, Long> register(
+        @Valid @RequestBody ReplyDTO replyDTO, //유효성 검증
+        BindingResult bindingResult) throws BindException {
         
+        log.info(replyDTO);
+
+        if(bindingResult.hasErrors()) {
+            throw new BindException(bindingResult);
+        }
+
+        Map<String, Long> resulMap = new HashMap<>();
+
+        Long rno = replyService.register(replyDTO);
+
+        resulMap.put("rno", rno);
+        
+        return resulMap;
+    }
 }

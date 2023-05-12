@@ -17,10 +17,15 @@ public class Reply  extends BaseEntity{
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long rno;
 
-    @ManyToOne(fetch = FetchType.LAZY) //다대일 관계
+    @ManyToOne(fetch = FetchType.LAZY) //n:1 관계
     private Board board;
 
     private String replyText;
     
     private String replyer;
+
+    //리플은 내용만 수정 가능
+    public void changeText(String text) {
+        this.replyText = text;
+    }
 }
