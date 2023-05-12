@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,5 +71,18 @@ public class ReplyController {
         ReplyDTO replyDTO = replyService.read(rno);
 
         return replyDTO;
+    }
+
+    //특정 댓글 삭제
+    @ApiOperation(value = "Delete Reply", notes = "DELETE 방식으로 특정 댓글 삭제")
+    @DeleteMapping("/{rno}") //삭제할 댓글 번호
+    public Map<String, Long>remove(@PathVariable("rno") Long rno) {
+        replyService.remove(rno);
+
+        Map<String, Long> resultMap = new HashMap<>();
+
+        resultMap.put("rno", rno);
+
+        return resultMap;
     }
 }

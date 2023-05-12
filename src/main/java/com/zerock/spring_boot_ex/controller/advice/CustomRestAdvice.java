@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -49,7 +50,9 @@ public class CustomRestAdvice {
     }
 
     //댓글 데이터가 존재하지 않는 경우 예외 처리
-    @ExceptionHandler(NoSuchElementException.class)
+    @ExceptionHandler({
+                    NoSuchElementException.class, 
+                    EmptyResultDataAccessException.class }) //존재하지 않는 댓글 번호로 또 요청 했을 때
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     public ResponseEntity<Map<String, String>> handleNoSuchException(Exception e) { 
         log.error(e);
