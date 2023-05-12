@@ -11,5 +11,5 @@ public class BoardListReplyCountDTO {
     private String writer;
     private LocalDateTime regDate;
     
-    private Long replyCont; //댓글수
+    private Long replyCount; //댓글수
 }

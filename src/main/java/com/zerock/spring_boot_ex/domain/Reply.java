@@ -11,14 +11,16 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "board")
+@ToString (exclude = "board") //해당 객체를 사용하지 않도록 제한
 public class Reply  extends BaseEntity{
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long rno;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) //다대일 관계
     private Board board;
+
     private String replyText;
+    
     private String replyer;
 }

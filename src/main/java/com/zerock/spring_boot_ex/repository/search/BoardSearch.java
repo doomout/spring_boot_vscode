@@ -8,7 +8,9 @@ import com.zerock.spring_boot_ex.dto.BoardListReplyCountDTO;
 public interface BoardSearch {
     Page<Board> search1(Pageable pageable);
 
-    //검색 조건들과 키워드로 조회
+    //types : 검색조건
+    //keyword : 검색어
+    //pageable : 페이지 정보
     Page<Board> searchAll(String[] types, String keyword, Pageable pageable);
 
     Page<BoardListReplyCountDTO> searchWithReplyCount(String[] types, String keyword, Pageable pageable);

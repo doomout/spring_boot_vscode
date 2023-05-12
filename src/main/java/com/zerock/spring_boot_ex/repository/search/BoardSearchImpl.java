@@ -24,16 +24,18 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
     @Override
     public Page<Board> search1(Pageable pageable) {
         QBoard board = QBoard.board; //Q도메인  객체
-        JPQLQuery<Board> query = from(board); //select.... from board
-        query.where(board.title.contains("50")); //where title like....
 
+        JPQLQuery<Board> query = from(board); //select.... from board
+
+        query.where(board.title.contains("1")); //where title like....
+         
         //paging
         this.getQuerydsl().applyPagination(pageable, query);
 
         List<Board> list = query.fetch();
 
         long count = query.fetchCount();
-
+        
         return null;
     }
     
@@ -47,17 +49,18 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
         //검색 조건과 키워드가 있다면
         if((types != null && types.length > 0) && keyword != null ) {
+
             BooleanBuilder booleanBuilder = new BooleanBuilder();
 
             for(String type: types) {
                 switch(type) {
-                    case "t":
+                    case "t": //제목
                         booleanBuilder.or(board.title.contains(keyword));
                         break;
-                    case "c":
+                    case "c": //내용
                         booleanBuilder.or(board.content.contains(keyword));
                         break;
-                    case "w":
+                    case "w": //작성자
                         booleanBuilder.or(board.writer.contains(keyword));
                         break;
                 }
@@ -74,6 +77,9 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         List<Board> list = query.fetch();
         long count = query.fetchCount();
 
+        //list : 실제 목록 데이터
+        //pageable : 페이지 관련 정보를 가진 객체
+        //count : 전체 개수
         return new PageImpl<>(list, pageable, count);
     }
 
@@ -83,10 +89,12 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         QReply reply = QReply.reply;
 
         JPQLQuery<Board> query = from(board);
+
         query.leftJoin(reply).on(reply.board.eq(board));
 
         query.groupBy(board);
 
+        //검색조건
         if((types != null && types.length > 0) && keyword != null) {
             BooleanBuilder booleanBuilder = new BooleanBuilder();
 

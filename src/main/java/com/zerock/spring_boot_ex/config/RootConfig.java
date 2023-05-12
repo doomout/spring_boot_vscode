@@ -10,10 +10,11 @@ public class RootConfig {
     @Bean
     public ModelMapper getMapper() {
         ModelMapper modelMapper = new ModelMapper();
+
         modelMapper.getConfiguration()
-        .setFieldMatchingEnabled(true)
-        .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
-        .setMatchingStrategy(MatchingStrategies.LOOSE);
+                .setFieldMatchingEnabled(true)
+                .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
+                .setMatchingStrategy(MatchingStrategies.LOOSE);
 
         return modelMapper;
     }

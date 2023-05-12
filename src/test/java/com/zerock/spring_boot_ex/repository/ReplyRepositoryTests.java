@@ -22,18 +22,23 @@ public class ReplyRepositoryTests {
 
     @Test
     public void testInsert() {
-        Long bno = 193L;
+        Long bno = 193L; //댓글도 연결되어 있는 게시물 번호
+
         Board board= Board.builder().bno(bno).build();
 
-        Reply reply = Reply.builder().board(board).replyText("악플.....").replyer("악플러").build();
+        Reply reply = Reply.builder()
+                .board(board)
+                .replyText("선플.....")
+                .replyer("선플러")
+                .build();
 
-        replyRepository.save(reply);
+        replyRepository.save(reply); //insert
     }
 
     @Transactional
     @Test
     public void testBoardReplies() {
-        Long bno = 193L;
+        Long bno = 193L; //댓글이 있는 게시물 번호
         Pageable pageable = PageRequest.of(0, 10, Sort.by("rno").descending());
 
         Page<Reply> result = replyRepository.listOfBoard(bno, pageable);
