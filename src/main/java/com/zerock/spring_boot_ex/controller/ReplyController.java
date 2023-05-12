@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -78,6 +79,21 @@ public class ReplyController {
     @DeleteMapping("/{rno}") //삭제할 댓글 번호
     public Map<String, Long>remove(@PathVariable("rno") Long rno) {
         replyService.remove(rno);
+
+        Map<String, Long> resultMap = new HashMap<>();
+
+        resultMap.put("rno", rno);
+
+        return resultMap;
+    }
+
+    //특정 댓글 수정
+    @ApiOperation(value = "Modify Reply", notes = "put 방식으로 특정 댓글 수정")
+    @PutMapping(value = "/{rno}", consumes = MediaType.APPLICATION_JSON_VALUE) //수정할 댓글 번호
+    public Map<String, Long>remove(@PathVariable("rno") Long rno, @RequestBody ReplyDTO replyDTO) {
+        replyDTO.setRno(rno); //번호를 일치 시킴
+        
+        replyService.modify(replyDTO);
 
         Map<String, Long> resultMap = new HashMap<>();
 
