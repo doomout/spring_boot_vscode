@@ -19,11 +19,9 @@ import com.zerock.spring_boot_ex.dto.ReplyDTO;
 import com.zerock.spring_boot_ex.repository.ReplyRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
 public class ReplyServiceImpl implements ReplyService {
     private final ReplyRepository replyRepository;
 

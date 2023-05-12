@@ -19,10 +19,8 @@ import com.zerock.spring_boot_ex.dto.PageResponseDTO;
 import com.zerock.spring_boot_ex.repository.BoardRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 @Service
-@Log4j2
 @RequiredArgsConstructor
 @Transactional
 public class BoardServiceImpl implements BoardService {

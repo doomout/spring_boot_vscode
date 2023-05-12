@@ -27,8 +27,15 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
         JPQLQuery<Board> query = from(board); //select.... from board
 
-        query.where(board.title.contains("1")); //where title like....
-         
+        BooleanBuilder booleanBuilder = new BooleanBuilder(); // (
+
+        booleanBuilder.or(board.title.contains("11")); // title like ...
+
+        booleanBuilder.or(board.content.contains("11")); // content like ....
+
+        query.where(booleanBuilder);
+        query.where(board.bno.gt(0L));
+
         //paging
         this.getQuerydsl().applyPagination(pageable, query);
 
