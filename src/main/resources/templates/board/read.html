@@ -62,7 +62,23 @@
             </div><!--end card-->
         </div><!-- end col-->
     </div><!-- end row-->
-</div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <button class="btn btn-info addReplBtn">ADD REPLY</button>
+            </div>
+            <ul class="list-group replyList">  
+            </ul>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <ul class="pagination replyPaging">
+                </ul>
+            </div>
+        </div>
+    <!--Axios 사용-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/reply.js"></script>
+</div> <!--end layout fragement-->
 
 
 <script layout:fragment="script" th:inline="javascript">
