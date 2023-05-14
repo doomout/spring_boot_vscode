@@ -3,9 +3,9 @@
 async function get1(bno) {
     const result = await axios.get(`/replies/list/${bno}`) //await 은 비동기 호출하는 부분을 명시
 
-    console.log(result)
+    //console.log(result)
 
-    //return result.data
+    return result.data
 }
 
 

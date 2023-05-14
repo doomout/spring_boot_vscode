@@ -88,10 +88,16 @@
 
 <script layout:fragment="script" th:inline="javascript">
     const bno = [[${dto.bno}]]
+     /*
+    get1(bno).then(data => {
+        console.log(data)
+    }).catch(e => {
+        console.error(e)
+    })
 
-    get1(bno)
-
-    /*
+    printReplies(1,10) //무조건 호출
+    */
+   
     const replyList = document.querySelector('.replyList') //댓글 목록 DOM
     const replyPaging = document.querySelector('.replyPaging') //페이지 목록 DOM
 
@@ -131,6 +137,8 @@
         }
         replyPaging.innerHTML = pageStr
     }
+    
+    //Axios 결과를 가져오면 아래 함수에 전달함
     //댓글 목록을 출력
     function printReplies(page,size,goLast){
 
@@ -146,5 +154,5 @@
     }
     
     printReplies(1,10)
-    */
+   
 </script>
