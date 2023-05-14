@@ -187,6 +187,24 @@ init_connect=SET NAMES utf8
 [mysql]
 default-character-set=utf8
 ```
+8. 비동기 처리와 Axios 
+    * 비동기 처리란? 여러 작업을 동시에 처리 하기 위해 각 작업에서 결과가 나오면 해당하는 작업에게 "통보"를 해주는 방식으로 작동하는 처리 
+    * 통보하는 과정을 콜백(callback) 라고 한다.
+    * Axios 란? Ajax를 호출하는 코드를 동기화된 방식처럼 작성할 수 있게 해준다.
+    * 비동기 호출법
+```js
+    <!--Axios 사용하기 위한 라이브러리 설정(read.html에 설정)-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--/js/reply.js 를 Axios 방식으로 처리하겠다는 것-->
+    <script src="/js/reply.js"></script>
+``` 
+```js
+//async 는 해당 함수가 비동기 처리를 위한 함수라는 것을 명시
+async function get1(bno) {
+    const result = await axios.get(`/replies/list/${bno}`) //await 은 비동기 호출하는 부분을 명시
 
+    console.log(result)
+}
+```
 
    

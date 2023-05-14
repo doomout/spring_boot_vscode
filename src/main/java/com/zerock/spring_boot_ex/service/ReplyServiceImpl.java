@@ -19,9 +19,11 @@ import com.zerock.spring_boot_ex.dto.ReplyDTO;
 import com.zerock.spring_boot_ex.repository.ReplyRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class ReplyServiceImpl implements ReplyService {
     private final ReplyRepository replyRepository;
 
@@ -64,9 +66,10 @@ public class ReplyServiceImpl implements ReplyService {
     //실제 반환되어야 할 타입은 Reply이 아니라 ReplyDTO 타입이기에 변환해야 한다.
     @Override
     public PageResponseDTO<ReplyDTO> getListOfBoard(Long bno, PageRequestDTO pageRequestDTO) {
-        Pageable pageable = PageRequest.of(pageRequestDTO.getPage() <= 0? 0:pageRequestDTO.getPage() - 1, 
-                    pageRequestDTO.getSize(), 
-                    Sort.by("rno").ascending());
+        
+        Pageable pageable = PageRequest.of(pageRequestDTO.getPage() <=0? 0: pageRequestDTO.getPage() -1,
+                pageRequestDTO.getSize(),
+                Sort.by("rno").ascending());
 
         Page<Reply> result = replyRepository.listOfBoard(bno, pageable);
 
