@@ -32,6 +32,18 @@ async function getList({bno, page, size, goLast}) {
 
 //댓글 등록
 async function addReply(replyObj) {
-  const response = await axios.post(`/replies/`, replyObj)
+  const response = await axios.post(`/replies/`, replyObj) //등록은 post 방식
+  return response.data
+}
+
+//댓글 조회
+async function getReply(rno) {
+  const response = await axios.get(`/replies/${rno}`) //조회는 get 방식
+  return response.data
+}
+
+//댓글 수정
+async function modifyReply(replyObj) {
+  const response = await axios.put(`/replies/${replyObj.rno}`, replyObj) //수정은 put 방식
   return response.data
 }

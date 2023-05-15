@@ -74,7 +74,7 @@
         </div>
     </div> <!--댓글 추가 버튼 끝-->
 
-    <div class="modal registerModal" tabindex="-1"><!--댓글 등록을 위한 모달창 시작-->
+    <div class="modal registerModal" tabindex="-1"><!--댓글 등록 창 시작-->
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -97,7 +97,29 @@
                 </div>
             </div>
         </div>
-    </div><!-- 댓글 모달 창 끝 -->
+    </div><!-- 댓글 등록 창 끝 -->
+
+    <div class="modal modifyModal" tabindex="-1"> <!--댓글 수정 창 시작-->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title replyHeader"></h5> <!--댓글 번호를 출력하는 부분-->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Reply Text</span> <!--댓글 내용을 입력하는 레이블-->
+                        <input type="text" class="form-control modifyText" > <!--댓글 내용을 입력하는 입력 필드-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info modifyBtn">Modify</button> <!--수정 버튼-->
+                    <button type="button" class="btn btn-danger removeBtn">Remove</button> <!--삭제 버튼-->
+                    <button type="button" class="btn btn-outline-dark closeModifyBtn">Close</button> <!--닫기 버튼-->
+                </div>
+            </div>
+        </div>
+    </div> <!--댓글 수정창 끝 -->
     
   
     <!--Axios 사용-->
@@ -203,5 +225,86 @@
             alert("Exception....")
         })
     }, false)
+
+    let page = 1 // 페이지 번호 초기값 설정
+    let size = 10 // 페이지 크기 초기값 설정
+
+    replyPaging.addEventListener("click", function(e){
+        e.preventDefault() // 기본 클릭 동작 방지
+        e.stopPropagation() // 이벤트 전파 방지
+
+        const target = e.target
+        if(!target || target.tagName != 'A') {
+            return // 타겟이 존재하지 않거나 태그 이름이 'A'가 아닌 경우 함수 종료
+        }
+
+        const pageNum = target.getAttribute("data-page") // 클릭한 페이지 번호 가져오기
+        page = pageNum // 현재 페이지 변수에 할당
+        printReplies(page, size)  // 페이지 번호와 페이지 크기를 인자로 받아서 함수 호출
+    }, false) //addEventListener 의 3번째 인자로 사용되는 값으로 false시 캡처링 단계에서의 동작 방식을 설정하는데 사용 
+
+    //댓글 수정 모달 창
+    const modifyModal = new bootstrap.Modal(document.querySelector(".modifyModal")) //수정 모달 객체 생성
+
+    //자주 쓰는 요소 미리 등록
+    const replyHeader = document.querySelector(".replyHeader") //댓글 헤더 요소
+    const modifyText = document.querySelector(".modifyText") //수정할 댓글 내용 입력
+    const modifyBtn = document.querySelector(".modifyBtn") //수정 버튼
+    const removeBtn = document.querySelector(".removeBtn") //삭제 버튼
+    const closeModifyBtn = document.querySelector(".closeModifyBtn") //수정 모달 닫기
+
+
+    replyList.addEventListener("click", function (e){
+
+        e.preventDefault() //기본 클릭 동작 방지
+        e.stopPropagation() //이벤트 전파 방지
+
+        const target = e.target
+
+        if(!target || target.tagName != 'SPAN'){
+            return 
+        }
+
+        const rno = target.getAttribute("data-rno")
+
+        if(!rno){
+            return //댓글 번호가 없는 경우 함수 종료
+        }
+
+        getReply(rno).then(reply => { //해당 댓글 번호로 서버로 부터 댓글 내용 가져오기
+
+            console.log(reply)
+            replyHeader.innerHTML = reply.rno //댓글 헤더에 댓글 번호 출력
+            modifyText.value = reply.replyText //수정할 댓글 내용 입력 요소에 댓글 내용 설정
+            modifyModal.show() //수정 모달 표시
+
+        }).catch(e => alert('error')) //에러시 알림 출력
+
+    },false)
+
+    modifyBtn.addEventListener("click", function(e) {
+
+        const replyObj = {
+            bno:bno, //게시물 번호
+            rno:replyHeader.innerHTML, //수정할 댓글 번호
+            replyText:modifyText.value} //수정된 댓글 내용
+
+        modifyReply(replyObj).then(result => {
+            alert(result.rno+' 댓글이 수정되었습니다.') //수정 완료 알림
+            replyText.value = '' //댓글 입력란 초기회
+            modifyModal.hide() //수정 모달 닫기
+            printReplies(page, size) //댓글 목록 갱신
+
+        }).catch(e => {
+            console.log(e) //에러 발생시 로그 출력
+        })
+    },false)
+
+    closeModifyBtn.addEventListener("click", function(e){
+
+        modifyModal.hide()
+
+    }, false)
+
    
 </script>
