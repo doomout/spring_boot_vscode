@@ -47,3 +47,9 @@ async function modifyReply(replyObj) {
   const response = await axios.put(`/replies/${replyObj.rno}`, replyObj) //수정은 put 방식
   return response.data
 }
+
+//댓글 삭제
+async function removeReply(rno) {
+  const response = await axios.delete(`/replies/${rno}`) //삭제는 delete
+  return response.data
+}

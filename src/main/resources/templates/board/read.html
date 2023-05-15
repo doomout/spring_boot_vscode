@@ -226,6 +226,7 @@
         })
     }, false)
 
+    //댓글 페이징
     let page = 1 // 페이지 번호 초기값 설정
     let size = 10 // 페이지 크기 초기값 설정
 
@@ -254,6 +255,7 @@
     const closeModifyBtn = document.querySelector(".closeModifyBtn") //수정 모달 닫기
 
 
+    //댓글 조회
     replyList.addEventListener("click", function (e){
 
         e.preventDefault() //기본 클릭 동작 방지
@@ -282,6 +284,8 @@
 
     },false)
 
+
+    //댓글 수정
     modifyBtn.addEventListener("click", function(e) {
 
         const replyObj = {
@@ -306,5 +310,19 @@
 
     }, false)
 
+    //댓글 삭제
+    removeBtn.addEventListener("click", function(e) {
+        removeReply(replyHeader.innerHTML).then(result => {
+            alert(result.rno + ` 댓글이 삭제 되었습니다. `)
+            replyText.value = ''
+            modifyModal.hide()
+
+            page = 1 //이 부분이 없다면 원래 페이지로
+
+            printReplies(page, size)      
+        }).catch(e => {
+            console.log(e)
+        })
+    }, false)
    
 </script>
