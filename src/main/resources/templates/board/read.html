@@ -53,17 +53,12 @@
                             </a>
                         </div>
                     </div>
-
-
                 </div><!--end card body-->
-
-
-
             </div><!--end card-->
         </div><!-- end col-->
     </div><!-- end row-->
 
-    <div class="row mt-3"> <!--댓글 추가 버튼-->
+    <div class="row mt-3"> <!--댓글 추가 버튼 시작-->
         <div class="col-md-12">
             <div class="my-4 ">
                 <button class="btn btn-info  addReplyBtn">ADD REPLY</button>
@@ -77,7 +72,33 @@
             <ul class="pagination replyPaging">
             </ul>
         </div>
-    </div>
+    </div> <!--댓글 추가 버튼 끝-->
+
+    <div class="modal registerModal" tabindex="-1"><!--댓글 등록을 위한 모달창 시작-->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Register Reply</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Reply Text</span>
+                        <input type="text" class="form-control replyText" >
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Replyer</span>
+                        <input type="text" class="form-control replyer" >
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary registerBtn">Register</button>
+                    <button type="button" class="btn btn-outline-dark closeRegisterBtn" >Close</button>
+                </div>
+            </div>
+        </div>
+    </div><!-- 댓글 모달 창 끝 -->
+    
   
     <!--Axios 사용-->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -88,15 +109,6 @@
 
 <script layout:fragment="script" th:inline="javascript">
     const bno = [[${dto.bno}]]
-     /*
-    get1(bno).then(data => {
-        console.log(data)
-    }).catch(e => {
-        console.error(e)
-    })
-
-    printReplies(1,10) //무조건 호출
-    */
    
     const replyList = document.querySelector('.replyList') //댓글 목록 DOM
     const replyPaging = document.querySelector('.replyPaging') //페이지 목록 DOM
@@ -143,7 +155,7 @@
     function printReplies(page,size,goLast){
 
         getList({bno, page,size, goLast}).then(
-            data => {
+            data => { 
                 printList(data.dtoList) //목록 처리
                 printPages(data) //페이지 처리
             }
@@ -154,5 +166,42 @@
     }
     
     printReplies(1, 10, true) //마지막 댓글을 보겠다...
+
+    //댓글 등록 모달창 이름
+    const registerModal = new bootstrap.Modal(document.querySelector(".registerModal")) 
+
+    //DOM 객체 미리 등록
+    const registerBtn = document.querySelector(".registerBtn") //댓글 등록 버튼
+    const replyText = document.querySelector(".replyText") //댓글 본문
+    const replyer = document.querySelector(".replyer") //댓글 등록자 이름
+    const closeRegisterBtn = document.querySelector(".closeRegisterBtn") //댓글 등록 취소 버튼
+
+    //add reply 버튼 클릭 이벤트시 모달 보여주기
+    document.querySelector(".addReplyBtn").addEventListener("click", function(e) {
+        registerModal.show()
+    }, false)
+
+    //close 버튼 클릭 이벤트시 모달 닫기
+    closeRegisterBtn.addEventListener("click", function(e){
+        registerModal.hide()
+    })
+
+    //댓글 등록 버튼
+    registerBtn.addEventListener("click", function(e){
+        const replyObj = {
+            bno:bno,
+            replyText:replyText.value,
+            replyer:replyer.value}
+
+        addReply(replyObj).then(result => {
+            alert(result.rno) //게시물 번호 알림
+            registerModal.hide() //모달 창 닫기
+            replyText.value = '' //댓글 초기화 
+            replyer.value = '' //댓글 작성자 초기화
+            printReplies(1, 10, true) //댓글 목록 갱신
+        }).catch(e => {
+            alert("Exception....")
+        })
+    }, false)
    
 </script>
