@@ -5,15 +5,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.zerock.spring_boot_ex.dto.upload.UploadFileDTO;
+import com.zerock.spring_boot_ex.dto.upload.UploadResultDTO;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
@@ -32,6 +34,9 @@ public class UpDownController {
         log.info(uploadFileDTO);
 
         if(uploadFileDTO.getFiles() != null) {
+
+            final List<UploadResultDTO> list = new ArrayList<>();
+
             uploadFileDTO.getFiles().forEach(multipartFile -> {
 
                 String originalName = multipartFile.getOriginalFilename(); //원본 이름
@@ -42,11 +47,15 @@ public class UpDownController {
 
                 Path savePath = Paths.get(uploadPath, uuid + "_" + originalName); //UUID(16자리)_원본이름 
 
+                boolean image = false;
+
                 try{
                     multipartFile.transferTo(savePath);
 
                     //파일이 이미지 파일이라면...
                     if(Files.probeContentType(savePath).startsWith("image")) {
+                        image = true;
+
                         File thumbFile = new File(uploadPath, "s_" + uuid + "_" + originalName); //작은 이미지는 s_를 붙인다.
 
                         Thumbnailator.createThumbnail(savePath.toFile(), thumbFile, 200, 200); //200 x 200 사이즈로 만든다.
@@ -54,6 +63,13 @@ public class UpDownController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                list.add(UploadResultDTO.builder().uuid(uuid)
+                                        .fileName(originalName)
+                                        .img(image)
+                                        .build()
+                );
+
             }); //end each
         }//end if
         return null;
