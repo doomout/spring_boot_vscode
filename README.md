@@ -41,9 +41,9 @@ dependencies {
     //Swagger UI 설정
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-
+    //이미지 업로드시 작은 이미지로 생성함
+    implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.16'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
-
     implementation 'org.modelmapper:modelmapper:3.1.0'
     //Querdsl 설정
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
