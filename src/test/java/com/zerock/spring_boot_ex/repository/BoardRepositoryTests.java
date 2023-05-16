@@ -1,6 +1,7 @@
 package com.zerock.spring_boot_ex.repository;
 
 import com.zerock.spring_boot_ex.domain.Board;
+import com.zerock.spring_boot_ex.domain.BoardImage;
 import com.zerock.spring_boot_ex.dto.BoardListReplyCountDTO;
 
 import lombok.extern.log4j.Log4j2;
@@ -11,16 +12,23 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.IntStream;
+
+import javax.transaction.Transactional;
 
 @SpringBootTest
 @Log4j2
 public class BoardRepositoryTests {
-    @Autowired
+    @Autowired //게시판 인터페이스 의존성 주입
     private BoardRepository boardRepository;
+
+    @Autowired //댓글 인터페이스 의존성 주입
+    private ReplyRepository replyRepository;
 
     //insert 기능 테스트
     @Test
@@ -128,5 +136,81 @@ public class BoardRepositoryTests {
         log.info(result.hasPrevious() + ": " + result.hasNext());
         
         result.getContent().forEach(board -> log.info(board));
+    }
+
+    @Test
+    public void testInsertWithImages() {
+        Board board = Board.builder()
+                        .title("Image Test")
+                        .content("aaa")
+                        .writer("me")
+                        .build();
+
+        for(int i = 0; i<3; i++) {
+            board.addImage(UUID.randomUUID().toString(), "file"+i+".jpg");
+        }
+
+        boardRepository.save(board);
+    }
+
+    //게시글과 첨부파일 동시 읽기 테스트
+    @Test
+    public void testReadWithImages() {
+        Optional<Board> result = boardRepository.findByIdWithImages(1L);
+
+        Board board = result.orElseThrow();
+
+        log.info(board);
+        log.info("----------------");
+        for(BoardImage boardImage : board.getImageSet()) {
+            log.info(boardImage);
+        }
+    }
+
+    //첨부 파일은 수정이 아니라 삭제 후 새로운 업로드다.
+    @Transactional
+    @Commit
+    @Test
+    public void testModifyImages() {
+        Optional<Board> result = boardRepository.findByIdWithImages(1L);
+        
+        Board board = result.orElseThrow();
+
+        //기존 첨부파일 삭제
+        board.clearImages();
+
+        //새로운 첨부파일들
+        for(int i=0; i<2; i++) {
+            board.addImage(UUID.randomUUID().toString(), "updatefile" + i + ".jpg");
+        }
+
+        boardRepository.save(board);
+    }
+
+    @Test
+    @Transactional
+    @Commit
+    public void testRemoveAll() { //게시물이 삭제 되면, 댓글, 첨부파일도 삭제 되어야 한다.
+        Long bno = 1L;
+        replyRepository.deleteByBoard_Bno(bno);
+
+        boardRepository.deleteById(bno);
+    }
+
+    @Test
+    public void testInsetAll() {
+        //게시물 100개 생성
+        for(int i = 1; i<=100; i++) {
+            Board board = Board.builder().title("Title.."+ i).content("Content.." + i).writer("writer.." + i).build();
+
+            //게시물당 첨부파일 3개임
+            for(int j =0; j < 3; j++) {
+                if( i % 5 == 0) { //게시물 번호 5배 수는 첨부 파일이 없음
+                    continue;       
+                }
+                board.addImage(UUID.randomUUID().toString(), i+"file"+".jpg");
+            }
+            boardRepository.save(board);
+        }
     }
 }
