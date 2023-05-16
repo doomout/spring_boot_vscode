@@ -1,6 +1,7 @@
 package com.zerock.spring_boot_ex.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -28,4 +29,7 @@ public class BoardDTO {
     private String writer;
     private LocalDateTime regDate;
     private LocalDateTime modDate;
+
+    //첨부 파일의 이름들
+    private List<String> fileNames;
 }

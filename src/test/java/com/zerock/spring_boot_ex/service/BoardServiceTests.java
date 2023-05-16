@@ -1,5 +1,8 @@
 package com.zerock.spring_boot_ex.service;
 
+import java.util.Arrays;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -55,5 +58,27 @@ public class BoardServiceTests {
 
         log.info(responseDTO);
 
+    }
+    
+    @Test
+    public void testRegisterWithImages() {
+        log.info(boardService.getClass().getName());
+
+        BoardDTO boardDTO = BoardDTO.builder()
+                .title("File....Sample Title...")
+                .content("Sample Content....")
+                .writer("user00")
+                .build();
+
+        boardDTO.setFileNames(
+            Arrays.asList(
+                UUID.randomUUID()+"_aaa.jpg",
+                UUID.randomUUID()+"_bbb.jpg",
+                UUID.randomUUID()+"_bbb.jpg"
+            )
+        );
+
+        Long bno = boardService.register(boardDTO);
+        log.info("bno: " + bno);
     }
 }

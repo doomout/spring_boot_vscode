@@ -2,6 +2,8 @@ package com.zerock.spring_boot_ex.repository;
 
 import com.zerock.spring_boot_ex.domain.Board;
 import com.zerock.spring_boot_ex.domain.BoardImage;
+import com.zerock.spring_boot_ex.dto.BoardDTO;
+import com.zerock.spring_boot_ex.dto.BoardListAllDTO;
 import com.zerock.spring_boot_ex.dto.BoardListReplyCountDTO;
 
 import lombok.extern.log4j.Log4j2;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -219,6 +222,14 @@ public class BoardRepositoryTests {
     public void testSearchImageReplyCount() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
 
-        boardRepository.searchWithAll(null, null, pageable);
+        //boardRepository.searchWithAll(null, null, pageable);
+        Page<BoardListAllDTO> result = boardRepository.searchWithAll(null, null, pageable);
+
+        log.info("-------------------------------");
+        log.info(result.getTotalElements());
+
+        result.getContent().forEach(BoardListAllDTO -> log.info(BoardListAllDTO));
     }
+
+   
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.zerock.spring_boot_ex.domain.Board;
 import com.zerock.spring_boot_ex.dto.BoardDTO;
+import com.zerock.spring_boot_ex.dto.BoardListAllDTO;
 import com.zerock.spring_boot_ex.dto.BoardListReplyCountDTO;
 import com.zerock.spring_boot_ex.dto.PageRequestDTO;
 import com.zerock.spring_boot_ex.dto.PageResponseDTO;
@@ -26,10 +27,20 @@ import lombok.RequiredArgsConstructor;
 public class BoardServiceImpl implements BoardService {
     private final ModelMapper modelMapper;
     private final BoardRepository boardRepository;
-
+/*
     @Override
     public Long register(BoardDTO boardDTO) {
         Board board = modelMapper.map(boardDTO, Board.class);
+        Long bno = boardRepository.save(board).getBno();
+
+        return bno;
+    }
+*/
+    @Override
+    public Long register(BoardDTO boardDTO) {
+
+        Board board = dtoToEntity(boardDTO);
+
         Long bno = boardRepository.save(board).getBno();
 
         return bno;
@@ -92,5 +103,10 @@ public class BoardServiceImpl implements BoardService {
                 .dtoList(result.getContent())
                 .total((int)result.getTotalElements())    
                 .build();
+    }
+
+    @Override
+    public PageResponseDTO<BoardListAllDTO> listWithAll(PageRequestDTO pageRequestDTO) {
+        return null;
     }
 }
