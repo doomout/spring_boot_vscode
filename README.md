@@ -57,8 +57,6 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	
-	
-	
 	annotationProcessor(
 			"javax.persistence:javax.persistence-api",
 			"javax.annotation:javax.annotation-api",
@@ -206,5 +204,12 @@ async function get1(bno) {
     console.log(result)
 }
 ```
-
-   
+9. 프로젝트 전체적인 구조
+    * DTO : 데이터 전송을 위한 객체로서, 데이터를 담아서 전송하거나 받을 때 사용
+    * Repository : 데이터베이스와 관련된 작업을 처리하는 인터페이스
+    * Service : 비즈니스 로직을 처리하는 인터페이스
+    * Domain : 비즈니스 도메인을 나타내는 객체로서, 데이터베이스와의 매핑을 위한 클래스
+    * Controller : 웹 요청에 대한 처리를 담당하는 클래스
+    * Config : 프로젝트 설정
+    * Test : 함수 별로 테스트 코드 작성, 검증
+    * Resources : html, css, javaScript, image 파일 같은 화면단 모음
