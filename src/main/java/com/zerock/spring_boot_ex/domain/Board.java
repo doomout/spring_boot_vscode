@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.HashSet;
 import javax.persistence.*;
 
+import org.hibernate.annotations.BatchSize;
+
 @Entity
 @Getter
 @Builder
@@ -36,6 +38,7 @@ public class Board extends BaseEntity {
                 fetch = FetchType.LAZY,
                 orphanRemoval = true) //하위 엔티티의 참조가 없는 상태가 되면 삭제가 이루어지도록 설정
     @Builder.Default
+    @BatchSize(size = 20) //비슷한 여러 쿼리문을 20개씩 모아서 사용하겠다는 것
     private Set<BoardImage> imageSet = new HashSet<>();
 
     public void addImage(String uuid, String fileName) {
