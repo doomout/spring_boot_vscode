@@ -213,3 +213,10 @@ async function get1(bno) {
     * Config : 프로젝트 설정
     * Test : 함수 별로 테스트 코드 작성, 검증
     * Resources : html, css, javaScript, image 파일 같은 화면단 모음
+
+10. vsCode 사용시 주의점(이것 때문에 시간 엄청 보넀음 ㅡㅡ)
+    * 확장에 Language Support for Java(TM) by Red Hat 가 강제로 설치 되고 삭제도 안되게 바뀌었다.
+    * Language Support for Java(TM) by Red Hat 는 Eclipse Adoptium 자바 sdk를 쓰게 강제한다.
+    * 기존 오라클 sdk가 설정으로 되어 있으면 읽지 못한다. 
+    * 최소 11 버전 이상을 쓰라고 강제한다.
+    * 자바 여러 버전을 사용할 수 있게 해주긴 한다... 
