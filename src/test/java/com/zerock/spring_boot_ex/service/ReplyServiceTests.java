@@ -1,4 +1,4 @@
-package com.zerock.spring_boot_ex.repository;
+package com.zerock.spring_boot_ex.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

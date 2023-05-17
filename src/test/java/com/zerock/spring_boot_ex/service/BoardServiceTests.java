@@ -98,4 +98,16 @@ public class BoardServiceTests {
 
         boardService.modify(boardDTO);
     }
+
+    @Test
+    public void testRemoveAll() {
+        Long bno = 1L; //1번 게시물에는 첨부파일 3개가 있다. 
+
+        //게시물 조회 1번,
+        //첨부 파일 조회 1번,
+        //게시물 삭제 1번,
+        //첨부파일 삭제 3번
+        //이걸 쿼리문 한방이면 할 것을 이렇게 하네......
+        boardService.remove(bno);
+    }
 }
