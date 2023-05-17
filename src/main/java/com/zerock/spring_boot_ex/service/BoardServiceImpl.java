@@ -125,8 +125,20 @@ public class BoardServiceImpl implements BoardService {
                 .build();
     }
 
+    //게시글 검색하여 페이지 단위로 조회
     @Override
     public PageResponseDTO<BoardListAllDTO> listWithAll(PageRequestDTO pageRequestDTO) {
-        return null;
+        String[] types = pageRequestDTO.getTypes(); //검색 조건 
+        String keyword = pageRequestDTO.getKeyword(); //검색 키워드 
+        Pageable pageable = pageRequestDTO.getPageable("bno");
+
+        //검색 결과를 저장
+        Page<BoardListAllDTO> result = boardRepository.searchWithAll(types,keyword, pageable);
+
+        return PageResponseDTO.<BoardListAllDTO>withAll()
+                .pageRequestDTO(pageRequestDTO) 
+                .dtoList(result.getContent())
+                .total((int)result.getTotalElements())
+                .build();
     }
 }

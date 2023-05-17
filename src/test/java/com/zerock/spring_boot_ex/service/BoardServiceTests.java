@@ -1,6 +1,7 @@
 package com.zerock.spring_boot_ex.service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.zerock.spring_boot_ex.dto.BoardDTO;
+import com.zerock.spring_boot_ex.dto.BoardImageDTO;
+import com.zerock.spring_boot_ex.dto.BoardListAllDTO;
 import com.zerock.spring_boot_ex.dto.PageRequestDTO;
 import com.zerock.spring_boot_ex.dto.PageResponseDTO;
 
@@ -109,5 +112,34 @@ public class BoardServiceTests {
         //첨부파일 삭제 3번
         //이걸 쿼리문 한방이면 할 것을 이렇게 하네......
         boardService.remove(bno);
+    }
+
+    @Test
+    public void testListWithAll() {
+        //테스트를 위해 PageRequestDTO를 생성하여 페이지 번호와 크기를 설정
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                    .page(1)
+                    .size(10)
+                    .build();
+
+
+        //boardService.listWithAll을 호출하여 검색 결과인 responseDTO를 가져옴
+        PageResponseDTO<BoardListAllDTO> responseDTO = boardService.listWithAll(pageRequestDTO);
+
+        //responseDTO에서 게시글 리스트인 dtoList를 가져옴
+        List<BoardListAllDTO> dtoList = responseDTO.getDtoList();
+
+        dtoList.forEach(boardListAllDTO -> {
+            log.info(boardListAllDTO.getBno()+ ":" + boardListAllDTO.getTitle());
+            
+            //게시글에 첨부된 이미지가 있다면 해당 이미지를 출력
+            if(boardListAllDTO.getBoardImages() != null) {
+                for(BoardImageDTO boardImage : boardListAllDTO.getBoardImages()) {
+                    log.info(boardImage);
+                }
+            }
+            //각 게시글과 이미지 사이에 구분선을 출력합니다.
+            log.info("-----------------------------------");
+        });
     }
 }
