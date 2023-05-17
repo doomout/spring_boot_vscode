@@ -48,9 +48,13 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public BoardDTO readOne(Long bno) {
-        Optional<Board> result = boardRepository.findById(bno);
+        //board_image까지 조인처리 되는 findByWithImages() 이용
+        Optional<Board> result = boardRepository.findByIdWithImages(bno);
+
         Board board = result.orElseThrow();
-        BoardDTO boardDTO = modelMapper.map(board, BoardDTO.class);
+
+        //BoardDTO boardDTO = modelMapper.map(board, BoardDTO.class);
+        BoardDTO boardDTO = entityToDTO(board);
 
         return boardDTO;
     }

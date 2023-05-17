@@ -1,6 +1,10 @@
 package com.zerock.spring_boot_ex.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.zerock.spring_boot_ex.domain.Board;
+import com.zerock.spring_boot_ex.domain.BoardImage;
 import com.zerock.spring_boot_ex.dto.BoardDTO;
 import com.zerock.spring_boot_ex.dto.BoardListAllDTO;
 import com.zerock.spring_boot_ex.dto.BoardListReplyCountDTO;
@@ -25,7 +29,11 @@ public interface BoardService {
     PageResponseDTO<BoardListAllDTO> listWithAll(PageRequestDTO pageRequestDTO);
 
 
-    //DTO를 Entity 로 변환 하기
+    /**
+     * DTO 객체를 Entity 객체로 변환하는 메서드입니다.
+     * @param boardDTO DTO 객체
+     * @return 변환된 Entity 객체
+     */
     default Board dtoToEntity(BoardDTO boardDTO){
 
         Board board = Board.builder()
@@ -35,7 +43,7 @@ public interface BoardService {
                 .writer(boardDTO.getWriter())
 
                 .build();
-
+         // DTO 객체의 fileNames에서 파일명을 추출하여 Entity의 imageSet에 추가합니다.
         if(boardDTO.getFileNames() != null){
             boardDTO.getFileNames().forEach(fileName -> {
                 String[] arr = fileName.split("_");
@@ -43,5 +51,30 @@ public interface BoardService {
             });
         }
         return board;
+    }
+
+    /**
+     * Entity 객체를 DTO로 변환하는 메서드입니다.
+     * @param board Entity 객체
+     * @return 변환된 DTO 객체
+     */
+    default BoardDTO entityToDTO(Board board) {
+        BoardDTO boardDTO = BoardDTO.builder()
+                        .bno(board.getBno())
+                        .title(board.getTitle())
+                        .content(board.getContent())
+                        .writer(board.getWriter())
+                        .regDate(board.getRegDate())
+                        .modDate(board.getModDate())
+                        .build();
+
+        // Entity 객체의 imageSet에서 파일명을 추출하여 DTO의 fileNames에 설정합니다.
+        List<String> fileName = board.getImageSet().stream()
+                            .sorted().map(BoardImage -> 
+                            BoardImage.getUuid()+ "_" +BoardImage.getFileName()
+                            ).collect(Collectors.toList());
+
+        boardDTO.setFileNames(fileName);
+        return boardDTO;
     }
 }
