@@ -61,11 +61,27 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public void modify(BoardDTO boardDTO) {
+        //게시글 조회
         Optional<Board> result = boardRepository.findById(boardDTO.getBno());
 
+        //게시글이 없으면 예외 발생
         Board board = result.orElseThrow();
+
+        //조회글의 제목과 내용을 업데이트
         board.change(boardDTO.getTitle(), boardDTO.getContent());
 
+        //기존의 첨부파일의 제거
+        board.clearImages();
+
+        //첨부 파일 이름이 있으면
+        if(boardDTO.getFileNames() != null) {
+            //첨부 파일 추가
+            for(String fileName : boardDTO.getFileNames()) {
+                String[] arr = fileName.split("_");
+                board.addImage(arr[0], arr[1]);
+            }
+        }
+        //최종적으로 수정된 게시글 저장
         boardRepository.save(board);
     }
 
