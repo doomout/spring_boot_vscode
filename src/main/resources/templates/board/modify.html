@@ -52,13 +52,61 @@
                             </div>
                         </div>
                     </form>
-
-
                 </div><!--end card body-->
             </div><!--end card-->
         </div><!-- end col-->
     </div><!-- end row-->
-</div>
+
+    <!-- 첨부 파일 섬네일을 보여줄 부분 -->
+    <div class="row mt-3"> <!--Bootstrap의 그리드 시스템을 사용하여 행을 생성합니다.(mt-3은 상단 여백) -->
+        <div class="col "> <!--컬럼을 생성합니다.-->
+            <!--유연한 컨테이너를 생성하고, uploadResult 클래스를 가지며, flex-wrap: wrap; 스타일을 적용하여 요소가 넘칠 경우 줄바꿈을 합니다.-->
+            <div class="container-fluid d-flex uploadResult" style="flex-wrap: wrap;"> 
+                <!--Thymeleaf의 th:block을 사용하여 반복문을 생성합니다. fileName 변수는 dto.fileNames에서 가져온 값을 할당받습니다.-->
+                <th:block th:each="fileName:${dto.fileNames}">
+                <!--카드 컴포넌트를 생성하고, col-4 클래스를 가지며, th:with를 사용하여 arr 변수에 fileName.split('_') 값을 할당합니다.-->
+                <div class="card col-4" th:with = "arr = ${fileName.split('_')}">
+                    <!--카드 헤더를 생성하고, d-flex justify-content-center 클래스를 사용하여 가운데 정렬합니다.-->
+                    <div class="card-header d-flex justify-content-center">
+                        [[${arr[1]}]] <!--Thymeleaf의 표현식을 사용하여 arr 변수의 인덱스 1 값을 출력합니다.-->
+                        <button class="btn-sm btn-danger"
+                                th:onclick="removeFile([[${arr[0]}]], [[${arr[1]}]], this)">X</button> <!--삭제 버튼을 생성하고, th:onclick 속성을 사용하여 removeFile 함수를 호출합니다. 인자로 arr[0]과 arr[1] 값을 전달합니다.-->
+                    </div>
+                    <div class="card-body"> <!--카드 바디를 생성합니다.-->
+                        <img th:src="|/view/s_${fileName}|" th:data-src="${fileName}" > <!--이미지의 소스를 설정하고, fileName 값을 적용하여 이미지 경로를 생성합니다.-->
+                    </div>
+                </div><!-- card -->
+                </th:block> <!--end block-->
+            </div> <!--end container-->
+        </div><!--end col-->
+    </div><!--end row-->
+
+    <!-- 첨부파일 추가를 위한 모달창 -->
+    <div class="modal uploadModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload File</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <input type="file" name="files" class="form-control" multiple >
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary uploadBtn">Upload</button>
+                    <button type="button" class="btn btn-outline-dark closeUploadBtn" >Close</button>
+                </div>
+            </div>
+        </div>
+    </div><!-- register modal -->
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="/js/upload.js"></script>
+
+</div><!--end layout fragement-->
 
 <script layout:fragment="script" th:inline="javascript">
 
