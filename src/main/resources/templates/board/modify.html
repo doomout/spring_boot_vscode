@@ -157,6 +157,26 @@
 
     }, false)
 
+    //최종적으로 삭제될 파일들의 목록
+    const removeFileList = []
+
+    function removeFile(uuid,fileName, obj){
+
+        if(!confirm("파일을 삭제하시겠습니까?")){
+            return
+        }
+
+        console.log(uuid)
+        console.log(fileName)
+
+        console.log(obj)
+
+        removeFileList.push({uuid,fileName})
+
+        const targetDiv = obj.closest(".card")
+        targetDiv.remove()
+    }
+
 
 </script>
 
