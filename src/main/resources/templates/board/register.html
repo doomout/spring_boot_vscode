@@ -104,21 +104,22 @@
     alert(errorMsg)
   }
 
-  //업로드 모달
+  //업로드 모달창
   const uploadModal = new bootstrap.Modal(document.querySelector(".uploadModal"))
 
   document.querySelector(".uploadFileBtn").addEventListener("click", function(e){
 
     e.stopPropagation()
     e.preventDefault()
+    
     uploadModal.show()
-
   }, false)
 
 
+  //업로드 처리
   document.querySelector(".uploadBtn").addEventListener("click", function(e){
 
-    const formObj = new FormData();
+    const formObj = new FormData(); //파일 정보들 추가
 
     const fileInput = document.querySelector("input[name='files']")
 
@@ -126,6 +127,7 @@
 
     const files = fileInput.files
 
+    //파일 갯수 만큼 반복 축가
     for (let i = 0; i < files.length; i++) {
       formObj.append("files", files[i]);
     }
@@ -137,13 +139,16 @@
       for (const uploadResult of result) {
         showUploadFile(uploadResult)
       }
+      
       uploadModal.hide()
+      
     }).catch(e => {
       uploadModal.hide()
     })
 
   },false)
 
+  //업로드 후 썸네일 표시
   const uploadResult = document.querySelector(".uploadResult")
 
   function showUploadFile({uuid, fileName, link}){
@@ -161,7 +166,7 @@
     uploadResult.innerHTML += str
   }
 
-
+  //파일 삭제
   function removeFile(uuid,fileName, obj){
 
     console.log(uuid)
@@ -181,25 +186,29 @@
     e.preventDefault()
     e.stopPropagation()
 
-    const target = document.querySelector(".uploadHidden")
+    const target = document.querySelector(".uploadHidden") // 업로드 파일명을 담을 hidden 필드의 선택자
 
-    const uploadFiles = uploadResult.querySelectorAll("img")
+    const uploadFiles = uploadResult.querySelectorAll("img") // 업로드된 파일 이미지들의 선택자
 
     let str = ''
 
     for (let i = 0; i < uploadFiles.length ; i++) {
       const uploadFile = uploadFiles[i]
-      const imgLink = uploadFile.getAttribute("data-src")
+      const imgLink = uploadFile.getAttribute("data-src") // 이미지의 데이터 속성에서 파일명을 가져옴
 
-      str += `<input type='hidden' name='fileNames' value="${imgLink}">`
+      str += `<input type='hidden' name='fileNames' value="${imgLink}">` // 파일명을 hidden 필드로 추가
     }
 
-    target.innerHTML = str;
+    target.innerHTML = str; // hidden 필드에 파일명 추가
 
-    const formObj = document.querySelector("form");
+    document.querySelector("form").submit();
+
+    /*
+    const formObj = document.querySelector("form"); // 업로드된 파일명을 포함한 폼 객체 선택
 
     formObj.submit();
     formObj.reset();
+    */
 
   }, false)
 
