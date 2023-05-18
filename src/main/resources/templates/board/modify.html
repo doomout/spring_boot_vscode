@@ -185,9 +185,14 @@
         e.preventDefault()
         e.stopPropagation()
 
+        //화면에 보이는 파일들을 form태그에 추가
+        appendFileData()
+        //화면에서 안보이도록 처리된 파일들을 form태그에 추가
+        appendNotShownData()
+
         formObj.action = `/board/remove`
         formObj.method ='post'
-        formObj.submit()
+        formObj.submit() 
     }, false)
 
     document.querySelector(".listBtn").addEventListener("click", function(e){
@@ -273,6 +278,24 @@
         </div><!-- card -->`
 
         uploadResult.innerHTML += str
+    }
+
+    function appendNotShownData(){
+
+        if(removeFileList.length == 0){
+            return
+        }
+
+        const target = document.querySelector(".uploadHidden")
+        let str = ''
+
+        for (let i = 0; i < removeFileList.length ; i++) {
+
+            const {uuid, fileName} = removeFileList[i];
+
+            str += `<input type='hidden' name='fileNames' value="${uuid}_${fileName}">`
+        }
+        target.innerHTML += str;
     }
 </script>
 

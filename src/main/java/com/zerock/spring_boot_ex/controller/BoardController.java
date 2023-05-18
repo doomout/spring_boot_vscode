@@ -1,7 +1,14 @@
 package com.zerock.spring_boot_ex.controller;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.util.List;
+
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +32,8 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 public class BoardController {
+    @Value("${com.zerock.upload.path}")// import 시에 springframework으로 시작하는 Value
+    private String uploadPath;
     private final BoardService boardService;
     
     @GetMapping("/list")
@@ -100,7 +109,7 @@ public class BoardController {
         return "redirect:/board/read";
     }
 
-    
+/* 
     @PostMapping("/remove")
     public String remove(Long bno, RedirectAttributes redirectAttributes) {
 
@@ -112,6 +121,54 @@ public class BoardController {
 
         return "redirect:/board/list";
 
+    }
+*/
+    @PostMapping("/remove")
+    public String remove(BoardDTO boardDTO, RedirectAttributes redirectAttributes) {
+
+        Long bno  = boardDTO.getBno();
+        log.info("remove post.. " + bno);
+
+        boardService.remove(bno);
+
+        //게시물이 삭제되었다면 첨부 파일 삭제
+        log.info(boardDTO.getFileNames());
+        List<String> fileNames = boardDTO.getFileNames();
+        if(fileNames != null && fileNames.size() > 0){
+            removeFiles(fileNames);
+        }
+
+        redirectAttributes.addFlashAttribute("result", "removed");
+
+        return "redirect:/board/list";
+
+    }
+
+    public void removeFiles(List<String> files){
+        // 주어진 파일들을 순회하면서 삭제 작업 수행
+        for (String fileName:files) {
+            // 파일 리소스 생성
+            Resource resource = new FileSystemResource(uploadPath + File.separator + fileName);
+            String resourceName = resource.getFilename();
+
+            try {
+                // 파일의 컨텐츠 타입 확인
+                String contentType = Files.probeContentType(resource.getFile().toPath());
+
+                // 파일 삭제
+                resource.getFile().delete();
+
+                // 섬네일 파일 삭제 (이미지 파일인 경우)
+                if (contentType.startsWith("image")) {
+                    File thumbnailFile = new File(uploadPath + File.separator + "s_" + fileName);
+                    thumbnailFile.delete();
+                }
+
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
+
+        }//end for
     }
 
 }
