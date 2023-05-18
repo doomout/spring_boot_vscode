@@ -29,7 +29,7 @@ public class UpDownController {
     @ApiOperation(value = "Upload POST", notes = "POST 방식으로 파일 등록") //Swagger API 문서화를 위해 사용되는 어노테이션
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) //HTTP 요청을 처리하는 핸들러 메서드
 
-    public String upload(UploadFileDTO uploadFileDTO) {
+    public List<UploadResultDTO> upload(UploadFileDTO uploadFileDTO) {
         log.info(uploadFileDTO);
 
         if(uploadFileDTO.getFiles() != null) {
@@ -70,6 +70,8 @@ public class UpDownController {
                 );
 
             }); //end each
+
+            return list;
         }//end if
         return null;
     }
