@@ -7,25 +7,7 @@ SQL 툴 - HeidiSQL 11.3.0.6295
 스프링 프레임워크 버전 - 5.3.19  
 부트스트랩 버전 - 5.1.3  
 
-1. application.properties 설정
-```
-//DB 관련
-spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
-spring.datasource.url=jdbc:mariadb://localhost:3306/webdb
-spring.datasource.username=doom
-spring.datasource.password=ska123
-server.port=8081
-
-//Log4j2 관련
-logging.level.org.springframework=info
-logging.level.org.zerock=debug
-
-//JPA 관련
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.properties.hibernate.format_sql=true
-spring.jpa.show-sql=true
-```
-2. build.gradle 설정
+1. build.gradle 설정
 ```
 //Querdsl 설정
 buildscript {
@@ -74,14 +56,14 @@ sourceSets{
 	}
 }
 ```
-3. JSON 데이터 란?
+2. JSON 데이터 란?
   * JavaScript Object Notation 의 약자로 구조를 가진 데이터를 자바스크립트의 객체 표시법으로 표현한 순수 문자열 
   * 순수 문자열이기에 데이터 교환시에 프로그램 언어에 독립적이다.
   * 스프링은 jackson-databind 라는 별도의 라이브러리를 추가 후 개발해야 한다.
   * 스프링 부트는 web 항목 추가할 때 자동으로 포함되어 별도의 설정 없이 바로 개발 가능하다.
   * 화면은 Thymeleaf를 이용하고 데이터는 json으로 전송하는 방식으로 개발한다.
 
-4. Thymeleaf 문법
+3. Thymeleaf 문법
 ```html
 <!--/* 주석 처리 + 에러 찾기 좋은 형태 주석 */-->
 <!--/*변수 선언법*/-->
@@ -138,7 +120,7 @@ sourceSets{
 <a th:href="@{/hello(name='한글처리', age=16)}">Go to /hello</a>
 <a th:href="@{/hello(types=${{'AAA','BB','CC'})}">Go to /hello</a>
 ```
-5. JPA 란?
+4. JPA 란?
     * 데이터에 해당하는 객체를 엔티티객체라는 것으로 다루고 JPA로 DB와 연동해서 관리
     * 엔티티 객체 - PK(기본키)를 가지는 자바의 객체. @Id 를 이용해서 객체를 구분
     * 엔티티 클래스는 반드시 @Entity 가 존재하고 엔티티 객체 구분을 위한 @Id가 필요
@@ -152,7 +134,7 @@ sourceSets{
     * Pageable, page<E> : 페이징 처리 
     * @Query : SQL 과 유사하게 JPA에서 사용하는 쿼리 언어
     * 원하는 속성만 추출해서 Object[] 로 처리 하거나 DTO로 처리하는 기능
-6. vsCode 에서 java 여러 버전 사용법 
+5. vsCode 에서 java 여러 버전 사용법 
     * vsCode 확장팩 Extension Pack for Java가 기본 자바 11 이상을 지원한다.
     * JDK가 11 이하가 설치 되어 있는 경우 실행시 오류가 발생한다.
     * 설정에서 java:home 으로 검색 후 "settings.json 에서 편집" 클릭 하단 코드를 추가 
@@ -169,7 +151,7 @@ sourceSets{
         }
     ],
 ```     
-7. MariaDB 한글 설정법
+6. MariaDB 한글 설정법
     * 윈도우 : 설치 경로\data\my.ini 파일 열기
     * 리눅스 : /etc/my.cnf.d 파일 열기 
     * 하단 설정 입력 후 mariaDB 재기동
@@ -187,7 +169,7 @@ init_connect=SET NAMES utf8
 [mysql]
 default-character-set=utf8
 ```
-8. 비동기 처리와 Axios 
+7. 비동기 처리와 Axios 
     * 비동기 처리란? 여러 작업을 동시에 처리 하기 위해 각 작업에서 결과가 나오면 해당하는 작업에게 "통보"를 해주는 방식으로 작동하는 처리 
     * 통보하는 과정을 콜백(callback) 라고 한다.
     * Axios 란? Ajax를 호출하는 코드를 동기화된 방식처럼 작성할 수 있게 해준다.
@@ -206,7 +188,7 @@ async function get1(bno) {
     console.log(result)
 }
 ```
-9. 프로젝트 전체적인 구조
+8. 프로젝트 전체적인 구조
     * DTO : 데이터 전송을 위한 객체로서, 데이터를 담아서 전송하거나 받을 때 사용
     * Repository : 데이터베이스와 관련된 작업을 처리하는 인터페이스
     * Service : 비즈니스 로직을 처리하는 인터페이스
@@ -216,7 +198,7 @@ async function get1(bno) {
     * Test : 함수 별로 테스트 코드 작성, 검증
     * Resources : html, css, javaScript, image 파일 같은 화면단 모음
 
-10. vsCode 사용시 주의점(이것 때문에 시간 엄청 보넀음 ㅡㅡ)
+9. vsCode 사용시 주의점(이것 때문에 시간 엄청 보넀음 ㅡㅡ)
     * 확장에 Language Support for Java(TM) by Red Hat 가 강제로 설치 되고 삭제도 안되게 바뀌었다.
     * Language Support for Java(TM) by Red Hat 는 Eclipse Adoptium 자바 sdk를 쓰게 강제한다.
     * 기존 오라클 sdk가 설정으로 되어 있으면 읽지 못한다. 
