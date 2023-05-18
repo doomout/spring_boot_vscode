@@ -139,12 +139,47 @@
         e.stopPropagation()
 
         formObj.action = `/board/modify?${link}`
+
+        //첨부파일 추가
+        appendFileData()
+
+        //삭제대상 파일들의 삭제
+        callRemoveFiles()
+
         formObj.method ='post'
         formObj.submit()
 
 
     }, false)
 
+    function appendFileData(){
+
+        const target = document.querySelector(".uploadHidden")
+        const uploadFiles = uploadResult.querySelectorAll("img")
+
+        let str = ''
+
+        for (let i = 0; i < uploadFiles.length ; i++) {
+            const uploadFile = uploadFiles[i]
+            const imgLink = uploadFile.getAttribute("data-src")
+
+            str += `<input type='hidden' name='fileNames' value="${imgLink}">`
+        }
+
+        target.innerHTML = str;
+
+    }
+    function callRemoveFiles(){
+        /*
+
+        removeFileList.forEach( ({uuid,fileName}) => {
+            removeFileToServer({uuid, fileName})
+        })
+        */
+        removeFileList.forEach( a => {
+            removeFileToServer(a.uuid, a.fileName)
+        })
+    }
 
     document.querySelector(".removeBtn").addEventListener("click", function(e){
         e.preventDefault()
