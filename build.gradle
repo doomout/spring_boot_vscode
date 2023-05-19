@@ -31,9 +31,19 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+    implementation 'net.coobird:thumbnailator:0.4.16'
     
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
+
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+
+    implementation 'org.modelmapper:modelmapper:3.1.0'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -52,19 +62,6 @@ dependencies {
             "javax.annotation:javax.annotation-api",
 
             "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
-
-
-    implementation 'org.modelmapper:modelmapper:3.1.0'
-
-    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
-
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-
-    implementation 'io.springfox:springfox-boot-starter:3.0.0'
-    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-
-    implementation 'net.coobird:thumbnailator:0.4.16'
 
 }
 
