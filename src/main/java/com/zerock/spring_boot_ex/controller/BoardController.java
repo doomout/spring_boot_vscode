@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.zerock.spring_boot_ex.dto.BoardDTO;
 import com.zerock.spring_boot_ex.dto.BoardListAllDTO;
-import com.zerock.spring_boot_ex.dto.BoardListReplyCountDTO;
+//import com.zerock.spring_boot_ex.dto.BoardListReplyCountDTO;
 import com.zerock.spring_boot_ex.dto.PageRequestDTO;
 import com.zerock.spring_boot_ex.dto.PageResponseDTO;
 import com.zerock.spring_boot_ex.service.BoardService;

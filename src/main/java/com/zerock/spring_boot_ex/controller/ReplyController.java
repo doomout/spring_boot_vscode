@@ -3,10 +3,10 @@ package com.zerock.spring_boot_ex.controller;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
+//import org.springframework.dao.EmptyResultDataAccessException;
+//import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+//import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ import com.zerock.spring_boot_ex.service.ReplyService;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
+//import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/replies")

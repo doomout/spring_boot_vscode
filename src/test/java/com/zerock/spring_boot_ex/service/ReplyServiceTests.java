@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.zerock.spring_boot_ex.dto.ReplyDTO;
-import com.zerock.spring_boot_ex.service.ReplyService;
+//import com.zerock.spring_boot_ex.service.ReplyService;
 
 import lombok.extern.log4j.Log4j2;
 

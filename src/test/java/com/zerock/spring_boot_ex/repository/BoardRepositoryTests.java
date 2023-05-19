@@ -2,7 +2,7 @@ package com.zerock.spring_boot_ex.repository;
 
 import com.zerock.spring_boot_ex.domain.Board;
 import com.zerock.spring_boot_ex.domain.BoardImage;
-import com.zerock.spring_boot_ex.dto.BoardDTO;
+//import com.zerock.spring_boot_ex.dto.BoardDTO;
 import com.zerock.spring_boot_ex.dto.BoardListAllDTO;
 import com.zerock.spring_boot_ex.dto.BoardListReplyCountDTO;
 
@@ -16,7 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

@@ -3,7 +3,7 @@ package com.zerock.spring_boot_ex.repository.search;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.Null;
+//import javax.validation.constraints.Null;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

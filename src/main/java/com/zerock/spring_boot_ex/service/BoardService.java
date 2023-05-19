@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.zerock.spring_boot_ex.domain.Board;
-import com.zerock.spring_boot_ex.domain.BoardImage;
+//import com.zerock.spring_boot_ex.domain.BoardImage;
 import com.zerock.spring_boot_ex.dto.BoardDTO;
 import com.zerock.spring_boot_ex.dto.BoardListAllDTO;
 import com.zerock.spring_boot_ex.dto.BoardListReplyCountDTO;
