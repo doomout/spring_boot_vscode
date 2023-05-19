@@ -17,35 +17,41 @@ buildscript {
 }
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    //스프링 시큐리티 적용
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    //Swagger UI 설정
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
-	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-    //이미지 업로드시 작은 이미지로 생성함
-    implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.16'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+    implementation 'net.coobird:thumbnailator:0.4.16'
+    
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
+
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+
     implementation 'org.modelmapper:modelmapper:3.1.0'
-    //Querdsl 설정
-	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-	annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    annotationProcessor 'org.projectlombok:lombok'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testCompileOnly 'org.projectlombok:lombok'
-	testAnnotationProcessor 'org.projectlombok:lombok'
-	
-	annotationProcessor(
-			"javax.persistence:javax.persistence-api",
-			"javax.annotation:javax.annotation-api",
-			"com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
-	)
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    annotationProcessor(
+
+            "javax.persistence:javax.persistence-api",
+
+            "javax.annotation:javax.annotation-api",
+
+            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
+    )
 }
 //Querdsl 설정
 sourceSets{
@@ -204,3 +210,10 @@ async function get1(bno) {
     * 기존 오라클 sdk가 설정으로 되어 있으면 읽지 못한다. 
     * 최소 11 버전 이상을 쓰라고 강제한다.
     * 자바 여러 버전을 사용할 수 있게 해주긴 한다... 
+
+10. @PreAuthorize / @PostAuthorize 접근 제한 표현식
+    * authenticated() : 인증된 사용자들만 허용
+    * permitAll() : 모두 허용
+    * anonymous() : 익명의 사용자 허용
+    * hasRole(표현식) : 특정한 권한이 있는 사용자 허용
+    * hasAnyRole(표현식) : 여러 권한 중 하나만 존재해도 허용 
