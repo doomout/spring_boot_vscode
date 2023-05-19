@@ -9,10 +9,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.zerock.spring_boot_ex.security.CustomUserDetailsService;
+import com.zerock.spring_boot_ex.security.handler.Custom403Handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -53,12 +55,19 @@ public class CustomSecurityConfig {
                 .userDetailsService(userDetailsService) //사용자 인증을 위한 UserDetailsService를 설정
                 .tokenValiditySeconds(60*60*24*30); //쿠키 유지 시간
 
-        //http.exceptionHandling().accessDeniedHandler(accessDeniedHandler()); //403
+        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler()); //403 에러 처리
 
         //http.oauth2Login().loginPage("/member/login").successHandler(authenticationSuccessHandler());
 
         return http.build();
     }
+
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new Custom403Handler();
+    }
+
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
 
