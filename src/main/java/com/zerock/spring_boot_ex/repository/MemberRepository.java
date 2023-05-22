@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, String> {
     @EntityGraph(attributePaths = "roleSet")
     @Query("select m from Member m where m.mid = :mid and m.social = false")
-    Optional<Member> getWithRoles(String mid);
+    Optional<Member> getWithRoles(@Param("mid")String mid); //11버전 이상은 @Param 을 사용해야 한다.
 
 /* 
     @EntityGraph(attributePaths = "roleSet")

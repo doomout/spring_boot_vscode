@@ -1,6 +1,6 @@
 package com.zerock.spring_boot_ex.repository;
 
-//import lombok.extern.log4j.Log4j2;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,11 +8,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.zerock.spring_boot_ex.domain.Member;
 import com.zerock.spring_boot_ex.domain.MemberRole;
 
-//import java.util.Optional;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @SpringBootTest
-//@Log4j2
+@Log4j2
 public class MemberRepositoryTests {
     @Autowired
     private MemberRepository memberRepository;
@@ -41,7 +41,7 @@ public class MemberRepositoryTests {
         });
 
     }
-/* 
+
     @Test
     public void testRead() {
 
@@ -55,5 +55,4 @@ public class MemberRepositoryTests {
         member.getRoleSet().forEach(memberRole -> log.info(memberRole.name()));
 
     }
-*/
 }
