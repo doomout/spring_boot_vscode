@@ -10,11 +10,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.zerock.spring_boot_ex.security.CustomUserDetailsService;
 import com.zerock.spring_boot_ex.security.handler.Custom403Handler;
+import com.zerock.spring_boot_ex.security.handler.CustomSocialLoginSuccessHandler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -38,6 +40,13 @@ public class CustomSecurityConfig {
         return new BCryptPasswordEncoder(); //패스워드 암호화
     }
 
+    //로그인 성공시 
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomSocialLoginSuccessHandler(passwordEncoder());
+    }
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {  
 
@@ -57,7 +66,8 @@ public class CustomSecurityConfig {
 
         http.exceptionHandling().accessDeniedHandler(accessDeniedHandler()); //403 에러 처리
 
-        //http.oauth2Login().loginPage("/member/login").successHandler(authenticationSuccessHandler());
+        // OAuth2 로그인 설정
+        http.oauth2Login().loginPage("/member/login").successHandler(authenticationSuccessHandler());
 
         return http.build();
     }

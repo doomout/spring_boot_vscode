@@ -15,14 +15,12 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     @Query("select m from Member m where m.mid = :mid and m.social = false")
     Optional<Member> getWithRoles(@Param("mid")String mid); //11버전 이상은 @Param 을 사용해야 한다.
 
-/* 
+
     @EntityGraph(attributePaths = "roleSet")
-    Optional<Member> findByEmail(String email);
+    Optional<Member> findByEmail(String email); //이메일을 통해 회원 정보를 찾을 수 있도록 설정
 
-
-    @Modifying
+    @Modifying //DML(insert,update,delete) 처리 가능
     @Transactional
-    @Query("update Member m set m.mpw =:mpw where m.mid = :mid ")
+    @Query("update Member m set m.mpw =:mpw where m.mid = :mid ") //암호 변경
     void updatePassword(@Param("mpw") String password, @Param("mid") String mid);
-*/
 }
