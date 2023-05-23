@@ -60,8 +60,8 @@ public class MemberRepositoryTests {
     @Commit
     @Test
     public void testUpdate() {
-        String mid = "doom@gmail.com"; //소셜로 추가된 사용자 DB에 있음
-        String mpw = passwordEncoder.encode("54321");
+        String mid = "winquake3@daum.net"; //소셜로 추가된 사용자 DB에 있음
+        String mpw = passwordEncoder.encode("1234");
 
         memberRepository.updatePassword(mpw, mid);
     }

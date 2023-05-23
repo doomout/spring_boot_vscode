@@ -17,39 +17,40 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 public class MembarController {
-    //의존성 주입
+ 
     private final MemberService memberService;
 
-    @GetMapping("/login")
-    public void loginGET(String errorCode, String logout) {
-        log.info("login get..................");
-        log.info("logout: " + logout);
-
-        if(logout != null) {
-            log.info("user logout........");
-        }
-    }
-
     @GetMapping("/join")
-    public void joinGET() {
-        log.info("join get.......");
+    public void joinGET(){
+
+        log.info("join get...");
+
     }
 
     @PostMapping("/join")
-    public String joinPOST(MemberJoinDTO memberJoinDTO, RedirectAttributes redirectAttributes) {
+    public String joinPOST(MemberJoinDTO memberJoinDTO, RedirectAttributes redirectAttributes){
+
         log.info("join post...");
         log.info(memberJoinDTO);
 
         try {
-            memberService.join(memberJoinDTO);
+            memberService.join(memberJoinDTO); // 회원 가입 기능을 호출하여 memberJoinDTO를 이용해 회원 가입을 처리합니다.
         } catch (MemberService.MidExistException e) {
 
-            redirectAttributes.addFlashAttribute("error", "mid");
-            return "redirect:/member/join";
+            redirectAttributes.addFlashAttribute("error", "mid"); // "mid"라는 속성을 가지고 에러 메시지를 설정합니다.
+            return "redirect:/member/join"; // 회원 가입 페이지로 다시 리다이렉트합니다.
         }
 
-        redirectAttributes.addFlashAttribute("result", "success");
+        redirectAttributes.addFlashAttribute("result", "success"); // "result"라는 속성을 가지고 성공 메시지를 설정합니다.
 
-        return "redirect:/member/login"; //회원 가입 후 로그인
+        return "redirect:/member/login"; // 회원 가입 후 로그인 페이지로 리다이렉트합니다.
     }
+
+
+    @GetMapping("/login")
+    public void loginGET(String error, String logout) {
+        log.info("login get..............");
+        log.info("logout: " + logout);
+    }
+
 }

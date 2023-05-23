@@ -20,7 +20,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 }
     */
 
-    Page<Reply> listOfBoard(@Param("bno")Long bno, Pageable pageable); //11버전 이상은 @Param 을 사용해야 한다.
+    Page<Reply> listOfBoard(@Param("bno") Long bno,@Param("pageable") Pageable pageable); //11버전 이상은 @Param 을 사용해야 한다.
      
-    void deleteByBoard_Bno(Long bno); //특정 게시물에 해당하는 데이터를 삭제(댓글, 첨부파일)
+    void deleteByBoard_Bno(@Param("bno") Long bno); //특정 게시물에 해당하는 데이터를 삭제(댓글, 첨부파일)
 }

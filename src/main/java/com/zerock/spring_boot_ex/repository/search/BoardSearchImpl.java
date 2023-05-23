@@ -3,8 +3,6 @@ package com.zerock.spring_boot_ex.repository.search;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//import javax.validation.constraints.Null;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +12,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
+
 import com.zerock.spring_boot_ex.domain.Board;
 import com.zerock.spring_boot_ex.domain.QBoard;
 import com.zerock.spring_boot_ex.domain.QReply;
